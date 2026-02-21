@@ -1,26 +1,81 @@
 @import "tailwindcss";
+@import "@neondatabase/auth/ui/tailwind";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #fffffe;
+    --headline: #00214d;
+    --paragraph: #1b2d45;
+
+    /* BUTTONS */
+    --button-background: #00ebc7;
+    --button-background-hover: #00d4a8;
+    --button-text: #00214d;
+
+    --sub-headline: #1b2d45;
+    --foreground: #171717;
+
+    /* ICONS / ILLUSTRATION */
+    --icon-stroke: #00214d;
+    --icon-main: #fffffe;
+    --icon-highlight: #00ebc7;
+    --icon-secondary: #ff5470;
+    --icon-tertiary: #fde24f;
+
+    /* CARD */
+    --card-background: #f2f4f6;
+    --card-headline: #00214d;
+    --card-paragraph: #1b2d45;
+    --card-tag-background: #fffffe;
+    --card-tag-text: #00214d;
+    --card-highlight: #ff5470;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer components {
+    .background {
+        background-color: var(--background);
+    }
+
+    .headline {
+        color: var(--headline);
+    }
+
+    .paragraph {
+        color: var(--paragraph);
+    }
+
+    .btn {
+        @apply inline-flex gap-2 items-center justify-center rounded-md px-4 py-1.5 font-semibold transition-colors duration-300;
+        background-color: var(--button-background);
+        color: var(--button-text);
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: var(--button-background-hover);
+        color: var(--button-text);
+    }
+
+    .card {
+        background-color: var(--card-background);
+    }
+
+    .card-headline {
+        color: var(--card-headline);
+    }
+
+    .card-paragraph {
+        color: var(--card-paragraph);
+    }
+
+    .card-tag {
+        background-color: var(--card-tag-background);
+        color: var(--card-tag-text);
+    }
+
+    .card-highlight {
+        color: var(--card-highlight);
+    }
+
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
