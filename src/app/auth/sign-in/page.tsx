@@ -1,14 +1,26 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { SignInWithEmail } from './signIn';
 import { FaGithubAlt, FaGoogle } from 'react-icons/fa';
 import { authClient } from '@/src/lib/auth/client';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function SignInForm() {
     const [state, formAction, isPending] = useActionState(SignInWithEmail, null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [session, setSession] = useState(null);
+    
+    const router = useRouter();
+    const error = useSearchParams().get('error');
+
+    useEffect(() => {
+        authClient.getSession().then(({ data }) => {
+            setSession(data);
+        });
+    }, []);
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
         setEmail(e.target.value);
@@ -22,7 +34,7 @@ export default function SignInForm() {
         try {
             await authClient.signIn.social({
                 provider: 'google',
-                callbackURL: '/'
+                callbackURL: `${window.location.origin}/auth/social`
             });
         } catch (error) {
             console.error("Google sign-in error:", error);
@@ -38,6 +50,17 @@ export default function SignInForm() {
         } catch (error) {
             console.error("GitHub sign-in error:", error);
         }
+    }
+
+    if (session?.session) {
+        return (
+            <div className='min-h-screen flex items-center flex-col justify-center gap-4'>
+                <h1 className="mt-10 text-center text-2xl/9 font-bold headline">You are already signed in</h1>
+                <button className="btn text-sm/6" onClick={() => router.replace('/dashboard')}>
+                    Go To Dashboard
+                </button>
+            </div>
+        );
     }
 
     return (
@@ -62,12 +85,11 @@ export default function SignInForm() {
 
                 {state?.error && (
                     <div className="rounded-md px-3 py-2 text-sm text-red-500">
-                    {state.error}
+                        {state.error}
                     </div>
                 )}
 
-                <button type="submit" disabled={isPending}
-                    className="btn w-sm text-sm/6">
+                <button type="submit" disabled={isPending} className="btn w-sm text-sm/6">
                     {isPending ? 'Signing in...' : 'Sign In'}
                 </button>
             </form>
@@ -80,12 +102,16 @@ export default function SignInForm() {
                 <button className="btn bg-white outline-(--icon-stroke) outline-1 w-sm text-sm/6" onClick={SignInWithGoogle}>
                     <FaGoogle className='size-5'/> Sign in with Google
                 </button>
-                <button className="btn bg-white outline-(--icon-stroke) outline-1 w-sm text-sm/6" onClick={SignInWithGithub}>
+                {/* <button className="btn bg-white outline-(--icon-stroke) outline-1 w-sm text-sm/6" onClick={SignInWithGithub}>
                     <FaGithubAlt className='size-5'/> Sign in with Github
-                </button>
-
+                </button> */}
+                {error && (
+                    <div className="rounded-md px-3 py-2 text-sm text-red-500">
+                        {error}
+                    </div>
+                )}
             </div>
-            <div className="text-center text-sm paragraph">Don&apos;t have an account? <a href="/auth/sign-up" className="text-blue-500 hover:underline">Sign up</a></div>
+            <div className="text-center text-sm paragraph">Don&apos;t have an account? <Link href="/auth/sign-up" className="text-blue-500 hover:underline">Sign up</Link></div>
         </div>
     );
 }

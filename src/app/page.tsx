@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { auth } from '../lib/auth/server';
 
@@ -6,13 +5,13 @@ import { auth } from '../lib/auth/server';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-    const { data: session } = await auth.getSession();
-
-    if (session?.user) {
+    const { data } = await auth.getSession();
+    
+    if (data?.user) {
         return (
         <div className="flex flex-col gap-2 min-h-screen items-center justify-center background">
             <h1 className="mb-4 text-4xl">
-            Logged in as <span className="font-bold underline">{session.user.name}</span>
+            Logged in as <span className="font-bold underline">{data.user.name}</span>
             </h1>
         </div>
         );
