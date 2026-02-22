@@ -25,5 +25,5 @@ export async function signUpWithEmail(_prevState: { error: string } | null, form
         return { error: error.message || 'Failed to create account' };
     }
 
-    redirect('/');
+    redirect('/dashboard');
 }
