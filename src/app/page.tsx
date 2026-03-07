@@ -13,6 +13,7 @@ export default async function Home() {
             <h1 className="mb-4 text-4xl">
                 Logged in as <span className="font-bold underline">{data.user.name}</span>
             </h1>
+            <Link href={"/dashboard"}>Go to Dashboard</Link>
         </div>
         );
     }

@@ -8,6 +8,8 @@
     /* BUTTONS */
     --button-background: #00ebc7;
     --button-background-hover: #00d4a8;
+    --button-background-cancel: #ff5470;
+    --button-background-cancel-hover: #ff3a5a;
     --button-text: #00214d;
 
     --sub-headline: #1b2d45;
@@ -27,6 +29,11 @@
     --card-tag-background: #fffffe;
     --card-tag-text: #00214d;
     --card-highlight: #ff5470;
+
+    /* SIDEBAR */
+    --sidebar-background: #eceff1;
+    --sidebar-text: #1b2d45;
+    --sidebar-border: #d0d8e0;
 }
 
 @layer components {
@@ -54,6 +61,18 @@
         color: var(--button-text);
     }
 
+    .btn-cancel {
+        @apply inline-flex gap-2 items-center justify-center rounded-md px-4 py-1.5 font-semibold transition-colors duration-300;
+        background-color: var(--button-background-cancel);
+        color: var(--button-text);
+        cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+        background-color: var(--button-background-cancel-hover);
+        color: var(--button-text);
+    }
+
     .card {
         background-color: var(--card-background);
     }
@@ -75,6 +94,51 @@
         color: var(--card-highlight);
     }
 
+    .icon {
+        fill: var(--icon-stroke);
+    }
 
+    /* SIDEBAR */
+    .sidebar {
+        @apply transition-colors duration-300;
+        background-color: var(--sidebar-background);
+        color: var(--sidebar-text);
+        border-right: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-item {
+        @apply py-2.5 transition-colors duration-200 cursor-pointer;
+        color: var(--sidebar-text);
+    }
+
+    .sidebar-item:hover {
+        background-color: var(--card-background);
+    }
+
+    .sidebar-item.active {
+        background-color: var(--button-background);
+        color: var(--button-text);
+        font-weight: 600;
+    }
+
+    /* Dark Sidebar Variant */
+    .sidebar.dark {
+        background-color: var(--headline);
+        color: var(--background);
+        border-right-color: var(--foreground);
+    }
+
+    .sidebar.dark .sidebar-item {
+        color: var(--background);
+    }
+
+    .sidebar.dark .sidebar-item:hover {
+        background-color: rgba(0, 235, 199, 0.1);
+    }
+
+    .sidebar.dark .sidebar-item.active {
+        background-color: var(--button-background);
+        color: var(--headline);
+    }
 }
 
