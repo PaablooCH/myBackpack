@@ -1,63 +1,52 @@
 "use client";
 
 import { authClient } from "@/src/lib/auth/client";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { Session, User } from "@/src/types/authTypes";
+import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 
-export type SessionContextValue = {
-    user: { id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        email: string;
-        emailVerified: boolean;
-        name: string;
-        image?: string | null | undefined;
-        banned: boolean | null | undefined;
-        role?: string | null | undefined;
-        banReason?: string | null | undefined;
-        banExpires?: Date | null | undefined; } | null;
-    session: { id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        userId: string;
-        expiresAt: Date;
-        token: string;
-        ipAddress?: string | null | undefined;
-        userAgent?: string | null | undefined;
-        impersonatedBy?: string | null | undefined;
-        activeOrganizationId?: string | null | undefined; } | null;
-    loading: boolean;
-};
+type SessionContextValue = Session & { loading: boolean, refresh: () => Promise<void>, updateUser: (fields: Partial<User>) => void };
 
 export const SessionContext = createContext<SessionContextValue>({
     user: null,
     session: null,
     loading: true,
+    refresh: async () => {},
+    updateUser: () => {},
 });
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-    const [session, setSession] = useState<SessionContextValue["session"]>(null);
-    const [user, setUser] = useState<SessionContextValue["user"]>(null);
+    const [data, setData] = useState<Session>({ user: null, session: null });
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchSession = async () => {
-            try {
-                const { data } = await authClient.getSession();
-                setSession(data?.session ?? null);
-                console.log(data?.user);
-                setUser(data?.user ?? null);
-            } catch (error) {
-                console.error("Failed to fetch session:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSession();
+    const fetchSession = useCallback(async () => {
+        try {
+            const { data: sessionData } = await authClient.getSession();
+            // console.log("🚀 ~ SessionProvider ~ data:", sessionData)
+            setData({
+                session: sessionData?.session ?? null,
+                user: sessionData?.user ?? null,
+            });
+        } catch (error) {
+            console.error("Failed to fetch session:", error);
+            setData({ user: null, session: null });
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
+    const updateUser = useCallback((fields: Partial<SessionContextValue["user"]>) => {
+        setData(prev => ({
+            ...prev,
+            user: prev.user ? { ...prev.user, ...fields } : null
+        }));
+    }, []);
+
+    useEffect(() => {
+        fetchSession();
+    }, [fetchSession]);
+
     return (
-        <SessionContext.Provider value={{ user, session, loading }}>
+        <SessionContext.Provider value={{ ...data, loading, refresh: fetchSession, updateUser: updateUser}}>
             {children}
         </SessionContext.Provider>
     );

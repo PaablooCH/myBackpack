@@ -6,20 +6,24 @@ import { FaArrowLeft, FaGoogle } from 'react-icons/fa';
 import { authClient } from '@/src/lib/auth/client';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { GiConsoleController } from 'react-icons/gi';
 
 export default function SignInForm() {
     const [state, formAction, isPending] = useActionState(SignInWithEmail, null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [session, setSession] = useState(null);
     
     const router = useRouter();
     const error = useSearchParams().get('error');
 
     useEffect(() => {
-        authClient.getSession().then(({ data }) => {
-            setSession(data);
-        });
+        const fetchSession = async () => {
+            const { data } = await authClient.getSession();
+            if (data?.session) {
+                router.push('/dashboard');
+            }
+        }
+        fetchSession();
     }, []);
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -51,17 +55,6 @@ export default function SignInForm() {
     //         console.error("GitHub sign-in error:", error);
     //     }
     // }
-
-    if (session?.session) {
-        return (
-            <div className='min-h-screen flex items-center flex-col justify-center gap-4'>
-                <h1 className="mt-10 text-center text-2xl/9 font-bold headline">You are already signed in</h1>
-                <button className="btn text-sm/6" onClick={() => router.replace('/dashboard')}>
-                    Go To Dashboard
-                </button>
-            </div>
-        );
-    }
 
     return (
         <div className='relative background'>

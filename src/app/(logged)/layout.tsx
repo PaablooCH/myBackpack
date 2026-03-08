@@ -7,7 +7,7 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className='min-h-screen background flex flex-row'>
+        <div className='min-h-screen background flex flex-row' suppressHydrationWarning>
             <SessionProvider>
                 <SideBarComponent />
                 {children}
