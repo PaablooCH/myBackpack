@@ -1,23 +1,16 @@
 import Link from 'next/link';
-import { auth } from '../lib/auth/server';
+import { GetSession } from '../lib/auth/server';
 import { redirect } from 'next/navigation';
 
 // Server components using auth methods must be rendered dynamically
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-    const { data } = await auth.getSession();
+    const { user } = await GetSession();
+    console.log("🚀 ~ Home ~ session:", user)
 
-    if (data?.user) {
+    if (user) {
         redirect("/dashboard");
-        // return (
-        //     <div className="flex flex-col gap-2 min-h-screen items-center justify-center background">
-        //         <h1 className="mb-4 text-4xl">
-        //             Logged in as <span className="font-bold underline">{data.user.name}</span>
-        //         </h1>
-        //         <Link href={"/dashboard"}>Go to Dashboard</Link>
-        //     </div>
-        // );
     }
 
     return (

@@ -1,15 +1,10 @@
 import Image from "next/image";
 import { useSessionContext } from "../../app/providers/sessionProvider";
-import { UserInfoSkeleton } from "./userInfoSkeleton";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 
 export default function UserInfoComponent() {
-    const { user, loading } = useSessionContext();
-
-    if (loading) {
-        return <UserInfoSkeleton />;
-    }
+    const { user } = useSessionContext();
 
     if (!user) {
         return <div className="mx-2 px-2 text-gray-500">No user</div>;
