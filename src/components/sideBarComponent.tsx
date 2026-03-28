@@ -3,7 +3,6 @@ import { FaArchive, FaChartBar } from "react-icons/fa";
 import UserInfoComponent from "./userInfoComponent/userInfoComponent";
 import { JSX } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 
 type Item = {
@@ -37,7 +36,7 @@ export default function SideBarComponent() {
                     return (
                         <li key={index}>
                             <Link href={item.link}>
-                                <div className={`flex items-center gap-2 sidebar-item px-2 rounded-md ${pathname === item.link ? "active" : ""}`}>
+                                <div className={`flex items-center gap-2 sidebar-item px-2 rounded-xl ${pathname === item.link ? "active" : ""}`}>
                                     {item.icon}
                                     <span>{item.name}</span>
                                 </div>
