@@ -10,10 +10,12 @@ export default async function DashboardLayout({
     const session = await GetSession();
 
     return (
-        <div className='min-h-screen background flex flex-row' suppressHydrationWarning>
+        <div className='min-h-screen background' suppressHydrationWarning>
             <SessionProvider session={session}>
                 <SideBarComponent />
-                {children}
+                <div className="ml-64">
+                    {children}
+                </div>
             </SessionProvider>
         </div>
     );

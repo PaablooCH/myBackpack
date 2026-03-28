@@ -27,7 +27,7 @@ export default function SideBarComponent() {
         },
     ]
     return (
-        <nav className="h-screen w-64 py-4 sidebar flex flex-col overflow-hidden">
+        <nav className="h-screen w-64 py-4 sidebar flex flex-col overflow-hidden shrink-0 fixed">
             <div className="flex items-center gap-4 text-(--sidebar-text) font-bold px-2 py-2.5">
                 <FaChartBar className="size-8"></FaChartBar>
                 <h1 className="text-2xl ">MyBackpack</h1>
