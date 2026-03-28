@@ -19,8 +19,10 @@
     --icon-stroke: #00214d;
     --icon-main: #fffffe;
     --icon-highlight: #00ebc7;
+    --icon-highlight-shadow: #48ffe4;
     --icon-secondary: #ff5470;
     --icon-tertiary: #fde24f;
+    --icon-other: #cc4ffd;
 
     /* CARD */
     --card-background: #f2f4f6;
