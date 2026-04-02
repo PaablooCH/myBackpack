@@ -109,6 +109,7 @@
     .card-tag {
         background-color: var(--card-tag-background);
         color: var(--card-tag-text);
+        outline: var(--icon-stroke) solid 1px;
     }
 
     .card-highlight {
