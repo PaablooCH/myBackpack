@@ -1,4 +1,4 @@
-import { Session } from '@/src/types/authTypes';
+import { Session } from '@/src/types/auth/authTypes';
 import { createAuthServer } from '@neondatabase/auth/next/server';
 import { redirect } from 'next/navigation';
 

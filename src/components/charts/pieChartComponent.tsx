@@ -1,6 +1,6 @@
 'use client'
 import { Pie, PieChart, PieSectorShapeProps, ResponsiveContainer, Sector, Tooltip } from "recharts";
-import { DataChart } from "./dataChart";
+import { DataChart } from "../../types/charts/dataChart";
 
 const COLORS = ['var(--icon-highlight)', 'var(--icon-secondary)', 'var(--icon-tertiary)', 'var(--icon-other)'];
 

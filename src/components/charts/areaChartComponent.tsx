@@ -1,6 +1,6 @@
 'use client'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { DataChart } from "./dataChart";
+import { DataChart } from "../../types/charts/dataChart";
 
 type Props = {
     dataChart: DataChart[],
