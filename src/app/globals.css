@@ -8,8 +8,10 @@
     /* BUTTONS */
     --button-background: #00ebc7;
     --button-background-hover: #00d4a8;
+    --button-background-active: #00f7d2;
     --button-background-cancel: #ff5470;
     --button-background-cancel-hover: #ff3a5a;
+    --button-background-cancel-active: #ff617b;
     --button-text: #00214d;
 
     --sub-headline: #1b2d45;
@@ -61,10 +63,17 @@
     .btn:hover {
         background-color: var(--button-background-hover);
         color: var(--button-text);
+        scale: 1.1;
+    }
+
+    .btn:active {
+        background-color: var(--button-background-active);
+        color: var(--button-text);
+        scale: 0.95;
     }
 
     .btn-cancel {
-        @apply inline-flex gap-2 items-center justify-center rounded-md px-4 py-1.5 font-semibold transition-colors duration-300;
+        @apply inline-flex gap-2 items-center justify-center rounded-md px-4 py-1.5 font-semibold transition-all duration-300;
         background-color: var(--button-background-cancel);
         color: var(--button-text);
         cursor: pointer;
@@ -73,6 +82,13 @@
     .btn-cancel:hover {
         background-color: var(--button-background-cancel-hover);
         color: var(--button-text);
+        scale: 1.1;
+    }
+
+    .btn-cancel:active {
+        background-color: var(--button-background-cancel-active);
+        color: var(--button-text);
+        scale: 0.95;
     }
 
     .card {
