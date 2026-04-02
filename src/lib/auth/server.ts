@@ -6,9 +6,13 @@ export const auth = createAuthServer();
 
 export async function GetSession(): Promise<Session> {
     const session = (await auth.getSession()).data;
-    if (!session?.user)
-    {
-        redirect('/sing-in');
+    return session ?? null;
+}
+
+export async function RequireSession() {
+    const session = (await auth.getSession()).data;
+    if (!session?.user) {
+        redirect('/auth/sign-in');
     }
     return session;
 }

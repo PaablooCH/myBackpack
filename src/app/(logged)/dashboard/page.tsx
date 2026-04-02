@@ -1,16 +1,16 @@
 import CardComponent from "@/src/components/cardComponent";
 import { prisma } from "@/src/lib/prisma/prisma";
-import { GetSession } from "@/src/lib/auth/server";
+import { RequireSession } from "@/src/lib/auth/server";
 import { BiTrendingUp } from "react-icons/bi";
 import { FaCircle } from "react-icons/fa";
 import AreaChartComponent from "@/src/components/charts/areaChartComponent";
 import PieChartComponent from "@/src/components/charts/pieChartComponent";
-import { DataChart } from "@/src/components/charts/dataChart";
+import { DataChart } from "@/src/types/charts/dataChart";
 
 export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
-    const session = await GetSession();
+    const session = await RequireSession();
     const user = session?.user;
 
     const [totalProducts, lowCount, outStock, netValue, latest, categoriesProductQuery] = await Promise.all([
@@ -157,7 +157,7 @@ export default async function Dashboard() {
 
                 {/* GRAPH */}
                 <CardComponent title="New products per week">
-                    <AreaChartComponent dataChart={productsByWeek} className="mt-2"></AreaChartComponent>
+                    <AreaChartComponent dataChart={productsByWeek} className="mt-2" />
                 </CardComponent>
             </div>
 
